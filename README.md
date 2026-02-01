@@ -13,3 +13,4 @@ uv run main.py
 ```
 uv add ruff
 ```
+# SMFC-team-maker
