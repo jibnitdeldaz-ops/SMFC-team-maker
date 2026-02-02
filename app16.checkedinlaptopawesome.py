@@ -16,48 +16,36 @@ st.set_page_config(page_title="SMFC Manager Pro", layout="wide", page_icon="⚽"
 # --- 🎨 THEME: "SMFC CLUB OFFICIAL" ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@700;900&family=Courier+Prime:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@700;800&family=Courier+Prime:wght@700&display=swap');
 
-    /* 1. APP BACKGROUND */
+    /* 1. APP BACKGROUND - Dark & Premium */
     .stApp {
         background-color: #0e1117;
         font-family: 'Rajdhani', sans-serif;
         background-image: radial-gradient(circle at 50% 0%, #1c2026 0%, #0e1117 70%);
     }
 
-    /* 2. CLUB TITLE STYLING */
-    .club-title {
-        font-family: 'Rajdhani', sans-serif !important;
-        font-weight: 900 !important;
-        text-transform: uppercase;
-        background: -webkit-linear-gradient(45deg, #D84315, #FF5722); /* RUST ORANGE */
+    /* 2. TITLE: RUST ORANGE (CLUB LOGO MATCH) */
+    h1 {
+        /* The Burnt Orange from the SDA Logo */
+        background: -webkit-linear-gradient(45deg, #D84315, #FF5722);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 30px rgba(216, 67, 21, 0.2);
+        font-family: 'Rajdhani', sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 4.5rem !important; /* HUGE FONT */
+        text-transform: uppercase;
         margin: 0; padding: 0;
-        line-height: 1.2;
-        white-space: nowrap; /* Prevents wrapping */
+        text-shadow: 0 0 25px rgba(216, 67, 21, 0.4);
+        line-height: 1.1;
     }
     
-    /* 💻 DESKTOP SIZE */
-    @media (min-width: 601px) {
-        .club-title { font-size: 4rem !important; }
-        .header-wrapper { display: flex; align-items: center; gap: 20px; }
-    }
-    
-    /* 📱 MOBILE SIZE (Adjusted to fit screen) */
-    @media (max-width: 600px) {
-        .club-title { font-size: 1.8rem !important; } /* Shrinks text to fit phone */
-        .header-wrapper { display: flex; align-items: center; gap: 10px; }
-        .stImage { max-width: 60px !important; } /* Smaller logo on phone */
-    }
-
-    /* 3. GLOBAL TEXT */
+    /* 3. GLOBAL TEXT - READABLE GREY */
     h2, h3, h4, .stMarkdown, p, span, div, label {
         color: #e0e0e0 !important;
     }
 
-    /* 4. INPUT LABELS */
+    /* 4. INPUT LABELS - MATCHING ORANGE */
     .stTextInput label, .stSelectbox label, .stDateInput label, .stTimeInput label, .stSlider label {
         color: #FF5722 !important;
         font-size: 15px !important;
@@ -66,7 +54,7 @@ st.markdown("""
         letter-spacing: 1px;
     }
     
-    /* 5. DROPDOWN FIX */
+    /* 5. DROPDOWN MENU FIX (Crisp White) */
     div[data-baseweb="popover"] div {
         background-color: #ffffff !important;
         color: #000000 !important;
@@ -78,7 +66,7 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.2) !important;
     }
 
-    /* 6. TEAM SPLIT BOX */
+    /* 6. TEAM SPLIT BOX - BLACK & WHITE (MAX READABILITY) */
     div[data-testid="stCodeBlock"] {
         background-color: #000000 !important;
         border: 2px solid #333 !important;
@@ -95,7 +83,7 @@ st.markdown("""
         font-size: 14px !important;
     }
 
-    /* 7. CONTAINERS */
+    /* 7. SECTION BOXES */
     .section-box {
         background: rgba(255, 255, 255, 0.05); 
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -176,20 +164,20 @@ def clean_whatsapp_name(text):
     text = re.sub(r'^\d+[\.\)]\s*', '', text)
     return text.strip()
 
-# --- 📌 HEADER SECTION (FIXED LAYOUT) ---
-# Use columns to force side-by-side layout on all devices
-c_logo, c_text = st.columns([1, 6], vertical_alignment="center")
-
+# --- 📌 HEADER SECTION ---
+c_title, c_logo = st.columns([5, 1])
+with c_title:
+    st.markdown("""
+        <div style='display: flex; align-items: center;'>
+            <span style='font-size: 70px; margin-right: 20px;'>⚽</span>
+            <h1>SMFC MANAGER PRO</h1>
+        </div>
+    """, unsafe_allow_html=True)
 with c_logo:
+    # Optional: Keep logo file if available, else blank
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=90)
-    else:
-        st.markdown("<h1>⚽</h1>", unsafe_allow_html=True)
+        st.image("logo.png", width=120)
 
-with c_text:
-    st.markdown('<h1 class="club-title">SMFC MANAGER PRO</h1>', unsafe_allow_html=True)
-
-# --- 📌 TABS ---
 tab1, tab2, tab3 = st.tabs(["MATCH LOBBY", "TACTICAL BOARD", "DATABASE"])
 
 with tab1:
@@ -469,5 +457,5 @@ with tab2:
         st.warning("Please Generate a Squad in Tab 1 first!")
 
 with tab3:
-    if st.text_input("PASSCODE", type="password") == "sdasmfc":
+    if st.text_input("PASSCODE", type="password") == "1234":
         st.data_editor(st.session_state.master_db, use_container_width=True)
