@@ -222,9 +222,9 @@ with tab1:
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="color:#FF5722; font-weight:bold; font-family:'Rajdhani', sans-serif; font-size:20px; letter-spacing:1px;">PLAYER POOL</div>
             <div style="display:flex; gap:5px;">
-                <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:14px; font-weight:bold;">{smfc_n} SMFC</div>
-                <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:14px; font-weight:bold;">{guest_n} GST</div>
-                <div style="background:linear-gradient(45deg, #FF5722, #FF8A65); padding:5px 10px; border-radius:6px; color:white; font-weight:bold; font-size:14px; box-shadow:0 0 10px rgba(255,87,34,0.4);">{total_n} TOTAL</div>
+                <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:15px; font-weight:bold;">{smfc_n} SMFC</div>
+                <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:15px; font-weight:bold;">{guest_n} GUEST</div>
+                <div style="background:linear-gradient(45deg, #FF5722, #FF8A65); padding:5px 10px; border-radius:6px; color:white; font-weight:bold; font-size:15px; box-shadow:0 0 10px rgba(255,87,34,0.4);">{total_n} TOTAL</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
