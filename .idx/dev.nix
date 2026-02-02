@@ -2,22 +2,18 @@
 # see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
-  channel = "stable-25.05"; # or "unstable"
+  channel = "stable-23.11"; # switched to a stable channel
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    # pkgs.go
-    pkgs.python314
-    pkgs.uv
-    # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
+    pkgs.python311
+    pkgs.python311Packages.pip
+    pkgs.python311Packages.virtualenv
   ];
   # Sets environment variables in the workspace
   env = {};
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
-      # "vscodevim.vim"
       "google.gemini-cli-vscode-ide-companion"
       "ms-python.python"
     ];
@@ -26,25 +22,14 @@
       enable = true;
       previews = {
          web = {
-          # This command tells IDX exactly how to launch your app
-          command = ["uv" "run" "streamlit" "run" "app.py" "--server.port" "$PORT" "--server.address" "0.0.0.0" "--server.enableCORS=false" "--server.enableXsrfProtection=false"];
+          # This command creates a venv if missing, installs reqs, and runs the app
+          # It specifically looks inside the SMFC_Manager folder now
+          command = [
+            "sh" "-c" 
+            "python3 -m venv venv && source venv/bin/activate && pip install -r SMFC_Manager/requirements.txt && streamlit run SMFC_Manager/app.py --server.port $PORT --server.address 0.0.0.0 --server.enableCORS=false --server.enableXsrfProtection=false"
+          ];
           manager = "web";
         };
-      };
-    };
-    # Workspace lifecycle hooks
-    workspace = {
-      # Runs when a workspace is first created
-      onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
-        # Open editors for the following files by default, if they exist:
-        default.openFiles = [ "README.md" ];
-      };
-      # Runs when the workspace is (re)started
-      onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
       };
     };
   };
