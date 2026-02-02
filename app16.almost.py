@@ -13,10 +13,10 @@ import os
 # --- ⚙️ PAGE CONFIG ---
 st.set_page_config(page_title="SMFC Manager Pro", layout="wide", page_icon="⚽")
 
-# --- 🎨 THEME: "SMFC CLUB OFFICIAL" ---
+# --- 🎨 THEME: "NEON GOLDEN STADIUM" ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@700;800&family=Courier+Prime:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@600;800&family=Courier+Prime:wght@700&display=swap');
 
     /* 1. APP BACKGROUND - Dark & Premium */
     .stApp {
@@ -25,19 +25,15 @@ st.markdown("""
         background-image: radial-gradient(circle at 50% 0%, #1c2026 0%, #0e1117 70%);
     }
 
-    /* 2. TITLE: RUST ORANGE (CLUB LOGO MATCH) */
+    /* 2. TITLE: GOLD GRADIENT */
     h1 {
-        /* The Burnt Orange from the SDA Logo */
-        background: -webkit-linear-gradient(45deg, #D84315, #FF5722);
+        background: -webkit-linear-gradient(45deg, #FFD700, #FDB931);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-family: 'Rajdhani', sans-serif !important;
-        font-weight: 900 !important;
-        font-size: 4.5rem !important; /* HUGE FONT */
-        text-transform: uppercase;
+        font-family: 'Orbitron', sans-serif;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         margin: 0; padding: 0;
-        text-shadow: 0 0 25px rgba(216, 67, 21, 0.4);
-        line-height: 1.1;
+        align-self: center;
     }
     
     /* 3. GLOBAL TEXT - READABLE GREY */
@@ -45,10 +41,10 @@ st.markdown("""
         color: #e0e0e0 !important;
     }
 
-    /* 4. INPUT LABELS - MATCHING ORANGE */
+    /* 4. INPUT LABELS - NEON GOLD */
     .stTextInput label, .stSelectbox label, .stDateInput label, .stTimeInput label, .stSlider label {
-        color: #FF5722 !important;
-        font-size: 15px !important;
+        color: #FFD700 !important;
+        font-size: 14px !important;
         text-transform: uppercase;
         font-weight: 800 !important;
         letter-spacing: 1px;
@@ -66,7 +62,8 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.2) !important;
     }
 
-    /* 6. TEAM SPLIT BOX - BLACK & WHITE (MAX READABILITY) */
+    /* 6. TEAM SPLIT BOX - THE READABILITY FIX */
+    /* Plain Black Background + White Text. No Fading. */
     div[data-testid="stCodeBlock"] {
         background-color: #000000 !important;
         border: 2px solid #333 !important;
@@ -77,7 +74,7 @@ st.markdown("""
         background-color: #000000 !important;
     }
     div[data-testid="stCodeBlock"] code {
-        color: #ffffff !important;
+        color: #ffffff !important; /* Pure White Text */
         font-family: 'Courier Prime', monospace !important;
         font-weight: bold !important;
         font-size: 14px !important;
@@ -94,11 +91,10 @@ st.markdown("""
 
     /* 8. BUTTONS */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(90deg, #D84315 0%, #FF5722 100%);
-        font-family: 'Rajdhani', sans-serif; border: none; height: 65px; font-size: 24px !important;
-        color: white !important; text-transform: uppercase; letter-spacing: 2px; font-weight: 900 !important;
+        background: linear-gradient(90deg, #FFD700 0%, #FF8C00 100%);
+        font-family: 'Orbitron', sans-serif; border: none; height: 60px; font-size: 20px !important;
+        color: black !important; text-transform: uppercase; letter-spacing: 2px; font-weight: 900 !important;
         width: 100%;
-        box-shadow: 0 4px 15px rgba(216, 67, 21, 0.4);
     }
     
     /* 9. CARDS */
@@ -164,19 +160,17 @@ def clean_whatsapp_name(text):
     text = re.sub(r'^\d+[\.\)]\s*', '', text)
     return text.strip()
 
-# --- 📌 HEADER SECTION ---
-c_title, c_logo = st.columns([5, 1])
-with c_title:
-    st.markdown("""
-        <div style='display: flex; align-items: center;'>
-            <span style='font-size: 70px; margin-right: 20px;'>⚽</span>
-            <h1>SMFC MANAGER PRO</h1>
-        </div>
-    """, unsafe_allow_html=True)
+# --- 📌 HEADER SECTION WITH LOGO ---
+c_logo, c_title = st.columns([1, 5])
 with c_logo:
-    # Optional: Keep logo file if available, else blank
+    # 🔴 LOGO LOGIC: Displays logo.png if present, otherwise shows fallback icon
     if os.path.exists("logo.png"):
         st.image("logo.png", width=120)
+    else:
+        st.markdown("<div style='font-size:60px; text-align:center;'>⚽</div>", unsafe_allow_html=True)
+with c_title:
+    st.markdown("<div style='padding-top:20px;'></div>", unsafe_allow_html=True) # Spacer
+    st.title("SMFC MANAGER PRO")
 
 tab1, tab2, tab3 = st.tabs(["MATCH LOBBY", "TACTICAL BOARD", "DATABASE"])
 
@@ -186,11 +180,11 @@ with tab1:
     st.markdown(f"""
     <div class="section-box">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="color:#FF5722; font-weight:bold; font-family:'Rajdhani', sans-serif; font-size:20px; letter-spacing:1px;">PLAYER POOL</div>
+            <div style="color:#FFD700; font-weight:bold; font-family:'Rajdhani', sans-serif; font-size:20px; letter-spacing:1px;">PLAYER POOL</div>
             <div style="display:flex; gap:5px;">
                 <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:14px; font-weight:bold;">{smfc_n} SMFC</div>
                 <div style="background:#111; padding:5px 10px; border-radius:6px; border:1px solid #444; color:white; font-size:14px; font-weight:bold;">{guest_n} GST</div>
-                <div style="background:linear-gradient(45deg, #FF5722, #FF8A65); padding:5px 10px; border-radius:6px; color:white; font-weight:bold; font-size:14px; box-shadow:0 0 10px rgba(255,87,34,0.4);">{total_n} TOTAL</div>
+                <div style="background:linear-gradient(45deg, #ff0080, #7928ca); padding:5px 10px; border-radius:6px; color:white; font-weight:bold; font-size:14px; box-shadow:0 0 10px rgba(255,0,128,0.4);">{total_n} TOTAL</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -288,7 +282,7 @@ with tab1:
 
     # --- PREVIEW & SUMMARY ---
     if not st.session_state.match_squad.empty:
-        st.markdown('<div class="section-box"><div class="section-header" style="color:#FF5722">LINEUPS</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-box"><div class="section-header" style="color:#FFD700">LINEUPS</div>', unsafe_allow_html=True)
         reds = st.session_state.match_squad[st.session_state.match_squad["Team"] == "Red"]
         blues = st.session_state.match_squad[st.session_state.match_squad["Team"] == "Blue"]
         
@@ -306,6 +300,7 @@ with tab1:
         
         # --- TEAMSPLIT CONSOLE ---
         st.write("---")
+        st.subheader("TeamSplit")
         
         formatted_date = match_date.strftime("%d %b")
         red_list = "\n".join([p['Name'] for p in reds.to_dict('records')])
@@ -338,12 +333,12 @@ LateFee: 50
                 this.style.color = 'white';
                 setTimeout(() => {{ 
                     this.innerText = '📋 COPY TEAM LIST'; 
-                    this.style.background = 'linear-gradient(90deg, #FF5722, #FF8A65)';
-                    this.style.color = 'white';
+                    this.style.background = 'linear-gradient(90deg, #FFD700, #FF8C00)';
+                    this.style.color = 'black';
                 }}, 2000);
             " style="
-                background: linear-gradient(90deg, #FF5722, #FF8A65);
-                color: white;
+                background: linear-gradient(90deg, #FFD700, #FF8C00);
+                color: black;
                 font-family: sans-serif;
                 font-weight: 800;
                 font-size: 18px;
@@ -367,7 +362,7 @@ LateFee: 50
         st.write("---")
         st.markdown("""
         <div style="text-align:center; margin-bottom:15px;">
-            <span style="font-family:'Orbitron'; font-size:22px; color:#FF5722; font-weight:bold; letter-spacing:2px; text-shadow:0 0 15px rgba(255, 87, 34, 0.5);">PLAYER TRANSFER WINDOW</span>
+            <span style="font-family:'Orbitron'; font-size:22px; color:#FFD700; font-weight:bold; letter-spacing:2px; text-shadow:0 0 15px rgba(255, 215, 0, 0.5);">PLAYER TRANSFER WINDOW</span>
         </div>
         """, unsafe_allow_html=True)
         
