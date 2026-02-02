@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import streamlit.components.v1 as components
 import re
 import os
+import base64
 
 # --- ⚙️ PAGE CONFIG ---
 st.set_page_config(page_title="SMFC Manager Pro", layout="wide", page_icon="⚽")
@@ -25,8 +26,15 @@ st.markdown("""
         background-image: radial-gradient(circle at 50% 0%, #1c2026 0%, #0e1117 70%);
     }
 
-    /* 2. CLUB TITLE STYLING */
-    .club-title {
+    /* 2. CLUB TITLE STYLING (HTML VERSION) */
+    .club-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center everything */
+        padding-bottom: 20px;
+    }
+    
+    .club-title-text {
         font-family: 'Rajdhani', sans-serif !important;
         font-weight: 900 !important;
         text-transform: uppercase;
@@ -35,21 +43,27 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         text-shadow: 0 0 30px rgba(216, 67, 21, 0.2);
         margin: 0; padding: 0;
-        line-height: 1.2;
-        white-space: nowrap; /* Prevents wrapping */
+        line-height: 1;
     }
-    
+
     /* 💻 DESKTOP SIZE */
     @media (min-width: 601px) {
-        .club-title { font-size: 4rem !important; }
-        .header-wrapper { display: flex; align-items: center; gap: 20px; }
+        .club-title-text { font-size: 4rem !important; }
+        .club-logo-img { height: 90px !important; margin-right: 20px; }
     }
     
-    /* 📱 MOBILE SIZE (Adjusted to fit screen) */
+    /* 📱 MOBILE SIZE (FORCE SIDE-BY-SIDE) */
     @media (max-width: 600px) {
-        .club-title { font-size: 1.8rem !important; } /* Shrinks text to fit phone */
-        .header-wrapper { display: flex; align-items: center; gap: 10px; }
-        .stImage { max-width: 60px !important; } /* Smaller logo on phone */
+        .club-header-container {
+            justify-content: flex-start; /* Align left on phone */
+        }
+        .club-title-text { 
+            font-size: 2.0rem !important; /* Perfect size for phone */
+        }
+        .club-logo-img { 
+            height: 50px !important; /* Smaller logo */
+            margin-right: 10px; 
+        }
     }
 
     /* 3. GLOBAL TEXT */
@@ -176,18 +190,26 @@ def clean_whatsapp_name(text):
     text = re.sub(r'^\d+[\.\)]\s*', '', text)
     return text.strip()
 
-# --- 📌 HEADER SECTION (FIXED LAYOUT) ---
-# Use columns to force side-by-side layout on all devices
-c_logo, c_text = st.columns([1, 6], vertical_alignment="center")
+def get_img_as_base64(file):
+    with open(file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-with c_logo:
-    if os.path.exists("logo.png"):
-        st.image("logo.png", width=90)
-    else:
-        st.markdown("<h1>⚽</h1>", unsafe_allow_html=True)
+# --- 📌 HEADER SECTION (HTML FLEXBOX) ---
+# This ensures Logo and Text are ALWAYS on the same line, even on mobile
+img_html = ""
+if os.path.exists("logo.png"):
+    img_b64 = get_img_as_base64("logo.png")
+    img_html = f'<img src="data:image/png;base64,{img_b64}" class="club-logo-img">'
+else:
+    img_html = '<span style="font-size: 60px; margin-right: 15px;">⚽</span>'
 
-with c_text:
-    st.markdown('<h1 class="club-title">SMFC MANAGER PRO</h1>', unsafe_allow_html=True)
+st.markdown(f"""
+<div class="club-header-container">
+    {img_html}
+    <div class="club-title-text">SMFC MANAGER PRO</div>
+</div>
+""", unsafe_allow_html=True)
 
 # --- 📌 TABS ---
 tab1, tab2, tab3 = st.tabs(["MATCH LOBBY", "TACTICAL BOARD", "DATABASE"])
@@ -469,5 +491,5 @@ with tab2:
         st.warning("Please Generate a Squad in Tab 1 first!")
 
 with tab3:
-    if st.text_input("PASSCODE", type="password") == "sdasmfc":
+    if st.text_input("PASSCODE", type="password") == "1234":
         st.data_editor(st.session_state.master_db, use_container_width=True)
